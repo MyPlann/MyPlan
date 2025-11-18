@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Trip - Booking</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Colors based on Project Specification */
+        :root {
+            --bs-info-600: #1570EF;
+            --bs-warning-500: #F79009;
+            --bs-success-400: #47CD89;
+            --bs-lavender-600: #6D428F;
+        }
+
+        .bg-lavender { background-color: var(--bs-lavender-600) !important; }
+        .text-lavender { color: var(--bs-lavender-600) !important; }
+        .text-info-600 { color: var(--bs-info-600) !important; }
+
+        .btn-lavender {
+            background-color: var(--bs-lavender-600);
+            color: #fff;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        .btn-lavender:hover { background-color: #5a3675; color: #fff; }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Inter', sans-serif;
+            padding: 30px 15px;
+        }
+
+        .booking-card {
+            max-width: 1200px;
+            margin: auto;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Ensures rounded corners look right */
+        }
+        .summary-box {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+
+<div class="booking-card bg-white">
+
+    <!-- Header Section -->
+    <div class="p-4 p-md-5 border-bottom">
+        <h1 class="text-lavender fw-bold mb-1"><i class="bi bi-calendar-check me-3"></i>Confirm Your Booking</h1>
+        <p class="lead text-muted">Secure your spot for the selected experience.</p>
+    </div>
+
+    <div class="row g-0">
+        <!-- Left Column: Experience Details (Experience Entity) -->
+        <div class="col-md-5 bg-lavender text-white p-4 p-md-5">
+            <h2 class="fw-bold mb-3">Hot Air Balloon Festival Entry</h2>
+            <span class="badge bg-white text-lavender fw-bold mb-3">ACTIVITY ID: EXP-342</span>
+
+            <!-- Experience Attributes -->
+            <p class="mb-4"><i class="bi bi-tag-fill me-2"></i><strong>Price per Person:</strong> 750 SAR (experience_price)</p>
+
+            <p class="fw-medium mb-2">Description:</p>
+            <p class="small mb-4">
+                Experience the breathtaking sunrise over the desert as hundreds of hot air balloons fill the sky. This ticket grants general admission and includes breakfast. (experience_description)
+            </p>
+
+        </div>
+
+        <!-- Right Column: Booking Form and Summary (Booking Entity) -->
+        <div class="col-md-7 p-4 p-md-5">
+            <form id="bookingForm">
+                <h4 class="text-lavender fw-bold mb-4">Booking Details</h4>
+
+                <!-- Date Selection (booking_date) -->
+                <div class="mb-3">
+                    <label for="bookingDate" class="form-label fw-medium"><i class="bi bi-calendar-date me-2"></i>Select Date</label>
+                    <input type="date" class="form-control form-control-lg rounded-3" id="bookingDate" value="2026-03-01" required>
+                </div>
+
+                <!-- Time Selection (booking_time) -->
+                <div class="mb-3">
+                    <label for="bookingTime" class="form-label fw-medium"><i class="bi bi-clock-fill me-2"></i>Select Time Slot</label>
+                    <select class="form-select form-select-lg rounded-3" id="bookingTime" required>
+                        <option value="">Choose...</option>
+                        <option value="05:00">5:00 AM (Sunrise)</option>
+                        <option value="07:00">7:00 AM</option>
+                    </select>
+                </div>
+
+                <!-- Number of People (number_of_people) -->
+                <div class="mb-4">
+                    <label for="numPeople" class="form-label fw-medium"><i class="bi bi-people-fill me-2"></i>Number of Guests</label>
+                    <input type="number" class="form-control form-control-lg rounded-3" id="numPeople" value="2" min="1" required>
+                </div>
+
+                <!-- Booking Summary Box (Payment Entity Flow) -->
+                <div class="summary-box mb-4">
+                    <h5 class="fw-bold text-lavender mb-3">Order Summary</h5>
+                    <ul class="list-group list-group-flush">
+                        <!-- Calculation based on ERD data -->
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                            Price (1 Ticket):
+                            <span class="fw-medium">750 SAR</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                            Guests: <span id="summaryPeople">2</span> x 750 SAR
+                            <span class="fw-medium">1,500 SAR</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                            Taxes & Fees:
+                            <span class="fw-medium">75 SAR</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0 fw-bold border-top pt-2 mt-2">
+                            Total Amount (payment_amount):
+                            <span class="text-info-600 fs-5">1,575 SAR</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-lavender btn-lg fw-bold rounded-pill shadow-lg py-3">
+                        <i class="bi bi-credit-card-fill me-2"></i>Confirm Booking & Pay
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHzI" crossorigin="anonymous"></script>
+</body>
+</html>
